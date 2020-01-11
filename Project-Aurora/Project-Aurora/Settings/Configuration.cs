@@ -236,6 +236,8 @@ namespace Aurora.Settings
 
         [Description("Asus Strix Flare")]
         Asus_Strix_Flare = 900,
+        [Description("Asus ROG Claymore Right")]
+        Asus_ROG_Claymore_Right = 901,
 
         //Drevo range is 1000-1099
         [Description("Drevo BladeMaster")]
