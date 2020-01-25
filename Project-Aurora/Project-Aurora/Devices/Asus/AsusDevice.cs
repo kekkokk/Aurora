@@ -17,6 +17,7 @@ namespace Aurora.Devices.Asus
     {
         private const string DeviceName = "Asus";
         private AuraState _state = AuraState.Off;
+        private SocketServer socket;
         private AuraState State
         {
             get => _state;
@@ -81,18 +82,25 @@ namespace Aurora.Devices.Asus
             if (State == AuraState.Starting || State == AuraState.On || State == AuraState.Stopping)
                 return true;
 
-            if (_asusHandler == null)
-                _asusHandler = new AsusHandler();
+            socket = new SocketServer();
+            socket.Start();
+            State = AuraState.On;
+            return true;
 
-            State = AuraState.Starting;
 
-            _runAsync = Global.Configuration.VarRegistry.GetVariable<bool>($"{DeviceName}_async");
-            bool initialized = _asusHandler.GetControl(_runAsync);
-            if (initialized)
-            {
-                State = AuraState.On;
-            }
-            return initialized;
+
+            //if (_asusHandler == null)
+            //    _asusHandler = new AsusHandler();
+
+            //State = AuraState.Starting;
+
+            //_runAsync = Global.Configuration.VarRegistry.GetVariable<bool>($"{DeviceName}_async");
+            //bool initialized = _asusHandler.GetControl(_runAsync);
+            //if (initialized)
+            //{
+            //    State = AuraState.On;
+            //}
+            //return initialized;
             //return _asusHandler.GetControl(_runAsync, success => State = success ? AuraState.On : State = AuraState.Off);
         }
 
@@ -139,9 +147,13 @@ namespace Aurora.Devices.Asus
         /// <inheritdoc />
         public bool UpdateDevice(DeviceColorComposition colorComposition, DoWorkEventArgs e, bool forced = false)
         {
+            if (socket != null)
+            {
+                socket.Send(colorComposition.keyColors);
+            }
             //Task.Run(() =>
             //{
-            _asusHandler.UpdateDevices(colorComposition.keyColors);
+            //_asusHandler.UpdateDevices(colorComposition.keyColors);
             //});
             return true;
         }

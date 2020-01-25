@@ -376,6 +376,7 @@
       <DependentUpon>Control_FieldPresenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Asus\AsusHandler.cs" />
+    <Compile Include="Devices\Asus\SocketServer.cs" />
     <Compile Include="Devices\UnifiedHID\RoccatTyon.cs" />
     <Compile Include="Devices\Vulcan\Vulcan.cs" />
     <Compile Include="Profiles\RocketLeague\GSI\Nodes\Team.cs" />
