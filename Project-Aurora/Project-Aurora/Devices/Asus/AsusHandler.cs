@@ -18,7 +18,7 @@ namespace Aurora.Devices.Asus
         protected readonly IAuraSyncDevice device;
         public bool busy = false;
         private readonly Dictionary<string, IAuraRgbLight> idToKey = new Dictionary<string, IAuraRgbLight>();
-
+        private Color lastLogoColor;
         public GenericAsusDevice(IAuraSyncDevice thisDevice)
         {
             name = thisDevice.Name;
@@ -43,7 +43,14 @@ namespace Aurora.Devices.Asus
             }
             else
             {
-                applyGenericColors(keyColors);
+                if (keyColors.TryGetValue(DeviceKeys.Peripheral_Logo, out var color))
+                {
+                    if (color != lastLogoColor)
+                    {
+                        applyGenericColors(keyColors);
+                        lastLogoColor = color;
+                    }
+                }
             }
         }
 
